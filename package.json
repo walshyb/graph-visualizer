@@ -1,5 +1,6 @@
 {
   "name": "graph-visualizer",
+  "homepage": "https://bwalshy.com/graph-visualizer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
