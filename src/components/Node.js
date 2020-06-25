@@ -32,20 +32,19 @@ export default class Node extends Component {
         y={y}
       >
         <Circle
-          width={50}
-          height={50}
-          fill={this.state.color}
-          value={1}
+          width={ 50 }
+          height={ 50 }
+          fill={ this.state.color }
+          value={ 1 }
           stroke="black"
-          label="hi"
-          onClick={this.handleClick}
+          onClick={ this.handleClick }
         />
         <Text
-          fontSize={16}
-          text={name}
+          fontSize={ 16 }
+          text={ name }
           fill="black"
-          offsetX={5}
-          offsetY={7}
+          offsetX={ 5 }
+          offsetY={ 7 }
         />
       </Label>
     );

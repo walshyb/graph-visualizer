@@ -10,20 +10,30 @@ export default class App extends Component {
   handleClick = ( event ) => {
     const { x, y } = event.target.getPointerPosition();
     let nodes = this.state.nodes;
-    nodes.push(<Node key={nodes.length} x={x} y={y} name={nodes.length} />);
+    nodes.push(
+      <Node
+        key={ nodes.length} 
+        x={ x }
+        y={ y }
+        name={ nodes.length } 
+      />
+    );
 
     this.setState({
       ...this.state,
       nodes: nodes
     });
-
   }
 
   render() {
     return (
       <div className="App">
         <h1>Click to create a node:</h1>
-        <Stage width={window.innerWidth} height={window.innerHeight} onClick={this.handleClick}>
+        <Stage
+          width={ window.innerWidth }
+          height={ window.innerHeight }
+          onClick={ this.handleClick }
+        >
           <Layer>
             { this.state.nodes }
           </Layer>
