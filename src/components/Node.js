@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Circle, Label, Text } from 'react-konva';
+import { Circle, Label, Text, Line } from 'react-konva';
 import Konva from 'konva';
 
 export default class Node extends Component {
   state = {
-    color: 'white'
+    nodeX: this.props.x,
+    nodeY: this.props.y,
+    color: 'white',
+    children: [],
   };
 
   static propTypes = {
@@ -18,19 +21,37 @@ export default class Node extends Component {
   };
 
   handleClick = () => {
+    let { children } = this.state;
+    let line = 
     this.setState({
       color: Konva.Util.getRandomColor()
     });
   };
 
+  onDragMove = ( event ) => {
+    this.setState({
+      ...this.state,
+      nodeX: event.target.x(),
+      nodeY: event.target.y()
+    });
+  }
+
+  onDragEnd = ( event ) => {
+    console.log('end', event);
+  }
+
   render() {
-    const { x, y, name } = this.props;
+    const { name } = this.props;
+    const { nodeX, nodeY } = this.state;
 
     return (
       <Label
-        x={x}
-        y={y}
+        x={ nodeX }
+        y={ nodeY }
         onClick={ this.handleClick }
+        draggable={ true }
+        onDragMove={ this.onDragMove }
+        onDragEnd={ this.onDragEnd }
       >
         <Circle
           width={ 50 }
