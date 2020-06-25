@@ -30,6 +30,7 @@ export default class Node extends Component {
       <Label
         x={x}
         y={y}
+        onClick={ this.handleClick }
       >
         <Circle
           width={ 50 }
@@ -37,7 +38,6 @@ export default class Node extends Component {
           fill={ this.state.color }
           value={ 1 }
           stroke="black"
-          onClick={ this.handleClick }
         />
         <Text
           fontSize={ 16 }

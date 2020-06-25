@@ -8,8 +8,16 @@ export default class App extends Component {
   };
 
   handleClick = ( event ) => {
+    // Ignore this function from handling clicks on nodes
+    if(!event.target || !event.target.getPointerPosition) {
+      return null;
+    }
+
+    // Get position
     const { x, y } = event.target.getPointerPosition();
     let nodes = this.state.nodes;
+
+    // Add new node to list of nodes
     nodes.push(
       <Node
         key={ nodes.length} 
@@ -19,6 +27,7 @@ export default class App extends Component {
       />
     );
 
+    // Update state with list of nodes
     this.setState({
       ...this.state,
       nodes: nodes
