@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Circle, Label, Text, Line } from 'react-konva';
-import Konva from 'konva';
+import { Circle, Label, Text } from 'react-konva';
 
 export default class Node extends Component {
   state = {
     nodeX: this.props.x,
     nodeY: this.props.y,
     color: 'white',
-    children: [],
   };
 
   static propTypes = {
@@ -17,15 +15,24 @@ export default class Node extends Component {
     name: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
-    ]).isRequired
+    ]).isRequired,
+    createLine: PropTypes.func.isRequired
   };
 
-  handleClick = () => {
-    let { children } = this.state;
-    let line = 
-    this.setState({
-      color: Konva.Util.getRandomColor()
-    });
+  /**
+   * Pass up x and y values to create
+   * a new line (edge)
+   */
+  handleClick = ( event ) => {
+    // TODO:
+    //
+    // Find approach where Node
+    // has constant access to its own
+    // attributes without needing event object
+    const x = event.target.getParent().x();
+    const y = event.target.getParent().y();
+
+    this.props.createLine(x, y);
   };
 
   onDragMove = ( event ) => {
@@ -37,7 +44,11 @@ export default class Node extends Component {
   }
 
   onDragEnd = ( event ) => {
-    console.log('end', event);
+    //console.log('end', event);
+  }
+
+  onMouseLeave = ( event ) => {
+    //console.log('mouseleave', event);
   }
 
   render() {
@@ -52,6 +63,7 @@ export default class Node extends Component {
         draggable={ true }
         onDragMove={ this.onDragMove }
         onDragEnd={ this.onDragEnd }
+        onMouseLeave={ this.onMouseLeave }
       >
         <Circle
           width={ 50 }
