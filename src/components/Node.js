@@ -43,14 +43,6 @@ export default class Node extends Component {
     });
   }
 
-  onDragEnd = ( event ) => {
-    //console.log('end', event);
-  }
-
-  onMouseLeave = ( event ) => {
-    //console.log('mouseleave', event);
-  }
-
   render() {
     const { name } = this.props;
     const { nodeX, nodeY } = this.state;

@@ -8,18 +8,25 @@ export default class App extends Component {
     lines: [], // edges,
     cursorX: null,
     cursorY: null,
-    addingLine: false
+    originalX: null,
+    originalY: null,
+    addingLine: false,
   };
 
   handleClick = ( event ) => {
     // Ignore this function from handling clicks on nodes
     if(event.target.getClassName() !== 'Stage') {
-      // TODO:
-      //
-      // check if node was clicked.
-      //
-      // if addingLine is true, end line adding here
-      console.log(event);
+      if(event.target.getParent().getClassName() === 'Label' && this.state.addingLine) {
+
+        // TODO:
+        // stop tracking new line coords,
+        // save <Line /> to this.state.lines,
+        // turn off add line
+        // reset x and y values in state
+        this.setState({
+        });
+      }
+
       return null;
     }
 
@@ -53,43 +60,30 @@ export default class App extends Component {
    * @param Number x
    * @param Number y
    */
-  createLine = (x, y) => {
-    let line = (<Line 
-      stroke="black"
-      strokeWidth={ 5 }
-      draggable={ true }
-      key={Math.random()}
-      ref={ ref => ( this.line = ref ) }
-      points={[
-        x, y, x, y 
-      ]}
-    />);
-
-    let { lines } = this.state;
-    lines.push(line);
-
+  createLine = ( x, y ) => {
     this.setState({
       ...this.state,
-      lines,
-      addingLine: true
+      addingLine: true,
+      originalX: x,
+      originalY: y
     });
   }
 
+  /**
+   * On mouse move on stage, update cursor x and y
+   */
   mouseOver = (event) => {
     if (event.target.getClassName() !== 'Stage') {
       return null;
     }
 
-    const { addingLine, lines } = this.state;
     const { x, y } = event.target.getPointerPosition();
-    
-    if(addingLine) {
-      // get last line
-      const originalX = this.line.points()[0];
-      const originalY = this.line.points()[1];
 
-      this.line.points([originalX, originalY, x, y])
-    }
+    this.setState({
+      ...this.state,
+      cursorX: x,
+      cursorY: y
+    });
   }
 
   render() {
@@ -108,6 +102,19 @@ export default class App extends Component {
           </Layer>
           <Layer>
             { this.state.lines }
+            { this.state.addingLine ?
+                <Line 
+                  stroke="black"
+                  strokeWidth={ 5 }
+                  draggable={ true }
+                  key={Math.random()}
+                  ref={ ref => ( this.line = ref ) }
+                  points={[
+                    this.state.originalX, this.state.originalY, this.state.cursorX, this.state.cursorY 
+                  ]}
+                />
+                : null
+            }
           </Layer>
         </Stage>
       </div>
